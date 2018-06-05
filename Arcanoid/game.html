@@ -5,7 +5,7 @@
         <title>game 1</title>
     </head>
     <body>
-        <canvas id="id-canvas" width="400" height="300"></canvas>
+        <canvas id="id-canvas" width="400" height="300" style="border: 1px red dashed;"></canvas>
         <script>
 var log = console.log.bind(console)
 
@@ -68,6 +68,9 @@ var Ball = function() {
     }
 
     o.move = function() {
+        if(!o.fired) {
+            return
+        }
         o.x += o.speedX
         o.y += o.speedY
         if(o.x > 400 | o.x < 0) {
@@ -76,6 +79,7 @@ var Ball = function() {
         if(o.y > 300 | o.y < 0) {
             o.speedY *= -1
         }
+
     }
 
     return o
@@ -142,9 +146,15 @@ var __main = function() {
     game.registerAction('a', function() {
         paddle.moveLeft()
     })
+
     game.registerAction('d', function() {
         paddle.moveRight()
     })
+
+    game.registerAction('f', function() {
+        ball.fire()
+    })
+
 
     game.update = function() {
         ball.move()
