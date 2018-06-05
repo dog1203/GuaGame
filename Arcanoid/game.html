@@ -32,6 +32,52 @@ var Paddle = function() {
         o.x += o.speed
     }
 
+    o.collide = function(obj) {
+        var half1Width = o.image.width / 2
+        var half1Height = o.image.height / 2
+        var half2Width = obj.image.width / 2
+        var half2Height = obj.image.height / 2
+        var cen1 = {
+            x: o.x + half1Width,
+            y: o.y + half1Height,
+        }
+        var cen2 = {
+            x: obj.x + half2Width,
+            y: obj.y + half2Height,
+        }
+
+        return Math.abs(cen2.x - cen1.x) <= half1Width + half2Width &&
+            Math.abs(cen2.y - cen1.y) <= half1Height + half2Height
+    }
+
+    return o
+}
+
+var Ball = function() {
+    var image = imageFromPath('ball.png')
+    var o = {
+        image: image,
+        x: 100,
+        y: 250,
+        speedX: 5,
+        speedY: 5,
+        fired: false,
+    }
+    o.fire = function() {
+        o.fired = true
+    }
+
+    o.move = function() {
+        o.x += o.speedX
+        o.y += o.speedY
+        if(o.x > 400 | o.x < 0) {
+            o.speedX *= -1
+        }
+        if(o.y > 300 | o.y < 0) {
+            o.speedY *= -1
+        }
+    }
+
     return o
 }
 
@@ -89,10 +135,9 @@ var GuaGame = function() {
 
 var __main = function() {
 
-
-    var paddle = Paddle()
-
     var game = GuaGame()
+    var paddle = Paddle()
+    var ball = Ball()
 
     game.registerAction('a', function() {
         paddle.moveLeft()
@@ -101,14 +146,17 @@ var __main = function() {
         paddle.moveRight()
     })
 
-
-
     game.update = function() {
+        ball.move()
+        if(paddle.collide(ball)) {
+            ball.speedY *= -1
+        }
     }
 
     game.draw = function() {
         // draw
         game.drawImage(paddle)
+        game.drawImage(ball)
     }
 }
 
