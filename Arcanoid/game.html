@@ -25,53 +25,91 @@ var Paddle = function() {
         speed: 5,
     }
     o.moveLeft = function() {
-        paddle.x -= paddle.speed
+        o.x -= o.speed
     }
 
     o.moveRight = function() {
-        paddle.x += paddle.speed
+        o.x += o.speed
     }
 
     return o
 }
-var __main = function() {
+
+var GuaGame = function() {
     var canvas = document.querySelector("#id-canvas")
     var context = canvas.getContext('2d')
+    var g = {
+        actions: {},
+        keydowns: {},
+    }
+
+    g.canvas = canvas
+    g.context = context
+
+    // draw image
+    g.drawImage = function(guaImage) {
+        g.context.drawImage(guaImage.image, guaImage.x, guaImage.y)
+    }
+
+    // events
+    window.addEventListener('keydown', function(event) {
+        g.keydowns[event.key] = true
+    })
+    window.addEventListener('keyup', function(event) {
+        g.keydowns[event.key] = false
+    })
+
+    g.registerAction = function(key, callback) {
+        g.actions[key] = callback
+    }
+
+
+    // timer
+    setInterval(function() {
+        // events
+        var actions = Object.keys(g.actions)
+        for (var i = 0; i < actions.length; i++) {
+            var key = actions[i]
+            if(g.keydowns[key]) {
+                g.actions[key]()
+            }
+        }
+
+        // update
+        g.update()
+        // clear
+        g.context.clearRect(0, 0, g.canvas.width, g.canvas.height)
+        // draw
+        g.draw()
+    }, 1000 / 60)
+
+
+    return g
+}
+
+var __main = function() {
+
 
     var paddle = Paddle()
 
+    var game = GuaGame()
 
-
-    var leftDown = false
-    var rightDown = false
-    // events
-    window.addEventListener('keydown', function(event) {
-        var k = event.key
-        if(k == 'a') {
-            leftDown = true
-        } else if(k == 'd') {
-            rightDown = true
-        }
+    game.registerAction('a', function() {
+        paddle.moveLeft()
+    })
+    game.registerAction('d', function() {
+        paddle.moveRight()
     })
 
-    window.addEventListener('keyup', function(event) {
-        var k = event.key
-        if(k == 'a') {
-            leftDown = false
-        } else if(k == 'd') {
-            rightDown = false
-        }
-    })
 
-    setInterval(function() {
-        if(leftDown) {
-            paddle.moveLeft()
-        } else if(rightDown) {
-            paddle.moveRight()
-        }
-        context.clearRect(0, 0, canvas.width, canvas.height)
-        context.drawImage(paddle.image, paddle.x, paddle.y)
-    }, 1000 / 60)
+
+    game.update = function() {
+    }
+
+    game.draw = function() {
+        // draw
+        game.drawImage(paddle)
+    }
 }
 
 __main()
