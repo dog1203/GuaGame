@@ -7,11 +7,11 @@ var Paddle = function() {
         speed: 5,
     }
     o.moveLeft = function() {
-        o.x -= o.speed
+        o.x = limitRange(o.x - o.speed, 0, 400 - o.image.width)
     }
 
     o.moveRight = function() {
-        o.x += o.speed
+        o.x = limitRange(o.x + o.speed, 0, 400 - o.image.width)
     }
 
     o.collide = function(obj) {

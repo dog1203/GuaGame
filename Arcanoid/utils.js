@@ -25,3 +25,13 @@ var intersect = function(o, obj) {
         return Math.abs(cen2.x - cen1.x) <= half1Width + half2Width &&
             Math.abs(cen2.y - cen1.y) <= half1Height + half2Height
 }
+
+
+var limitRange = function(x, low, high) {
+    if(x > high) {
+        x = high
+    } else if( x < low) {
+        x = low
+    }
+    return x
+}
