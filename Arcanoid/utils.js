@@ -35,3 +35,16 @@ var limitRange = function(x, low, high) {
     }
     return x
 }
+
+
+var loadLevels = function(n) {
+    var blocks = []
+    var n = n - 1
+    var level = levels[n]
+    for (var i = 0; i < level.length; i++) {
+        var position = level[i]
+        var block = Block(position)
+        blocks.push(block)
+    }
+    return blocks
+}

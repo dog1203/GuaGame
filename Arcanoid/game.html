@@ -12,6 +12,8 @@
        <script src="block.js"></script>
        <script src="guagame.js"></script>
        <script src="ball.js"></script>
+       <script src="level.js"></script>
+
 
        </script>
         <title>game 1</title>
@@ -30,14 +32,8 @@ var __main = function() {
     var game = GuaGame()
     var paddle = Paddle()
     var ball = Ball()
-    var blocks = []
+    var blocks = loadLevels(3)
 
-    for (var i = 0; i < 3; i++) {
-        var b = Block()
-        b.x = i * 100
-        b.y = 50
-        blocks.push(b)
-    }
 
 
     game.registerAction('a', function() {
@@ -50,6 +46,15 @@ var __main = function() {
 
     game.registerAction('f', function() {
         ball.fire()
+    })
+
+    window.addEventListener('keydown', function(event) {
+        var k = event.key
+        if(k == 'p') {
+            return
+        } else if('1234567'.includes(k)) {
+            blocks = loadLevels(Number(k))
+        }
     })
 
 

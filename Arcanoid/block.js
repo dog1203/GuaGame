@@ -1,11 +1,13 @@
-var Block = function() {
+var Block = function(position) {
+    // position 是一个[0, 0, 0] 格式的list，第三个元素是生命
+    p = position
     var image = imageFromPath('block.png')
     var o = {
         image: image,
-        x: 50,
-        y: 20,
+        x: p[0],
+        y: p[1],
         alive: true,
-        lives: 2,
+        lives: p[2] || 1,
     }
 
     o.collide = function(obj) {
