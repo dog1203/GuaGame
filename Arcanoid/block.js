@@ -5,6 +5,7 @@ var Block = function() {
         x: 50,
         y: 20,
         alive: true,
+        lives: 2,
     }
 
     o.collide = function(obj) {
@@ -12,7 +13,10 @@ var Block = function() {
     }
 
     o.kill = function() {
-        o.alive = false
+        o.lives -= 1
+        if(o.lives < 1) {
+            o.alive = false
+        }
     }
 
     return o
