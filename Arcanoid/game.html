@@ -34,6 +34,8 @@ var __main = function() {
     var ball = Ball()
     var blocks = loadLevels(3)
 
+    var paused = false
+
 
 
     game.registerAction('a', function() {
@@ -51,7 +53,7 @@ var __main = function() {
     window.addEventListener('keydown', function(event) {
         var k = event.key
         if(k == 'p') {
-            return
+            paused = !paused
         } else if('1234567'.includes(k)) {
             blocks = loadLevels(Number(k))
         }
@@ -59,6 +61,9 @@ var __main = function() {
 
 
     game.update = function() {
+        if(paused) {
+            return
+        }
         ball.move()
         if(paddle.collide(ball)) {
             ball.speedY *= -1
