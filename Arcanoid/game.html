@@ -20,21 +20,64 @@
     </head>
     <body>
         <canvas id="id-canvas" width="400" height="300"></canvas>
+        <br>
+        <input id = "id-input-speed" type="range"  value="30">
         <script>
 
 
+var enableDebugMode = function(enable) {
+    if(!enable) {
+        return
+    } else {
+        window.addEventListener('keydown', function(event) {
+            var k = event.key
+            if(k == 'p') {
+                paused = !paused
+            } else if('1234567'.includes(k)) {
+                blocks = loadLevels(Number(k))
+            }
+        })
 
+        document.querySelector("#id-input-speed").addEventListener('input', function(event) {
+            // log(event.target)
+            game.fps = Number(event.target.value)
+            log(game.fps)
+        })
+    }
+}
 
 
 
 var __main = function() {
+    var enableDebugMode = function(enable) {
+        if(!enable) {
+            return
+        } else {
+            window.addEventListener('keydown', function(event) {
+                var k = event.key
+                if(k == 'p') {
+                    paused = !paused
+                } else if('1234567'.includes(k)) {
+                    blocks = loadLevels(Number(k))
+                }
+            })
 
-    var game = GuaGame()
+            document.querySelector("#id-input-speed").addEventListener('input', function(event) {
+                // log(event.target)
+                game.fps = Number(event.target.value)
+                log(game.fps)
+            })
+        }
+    }
+
+    var defaultFPS = 30
+    var game = GuaGame(defaultFPS)
     var paddle = Paddle()
     var ball = Ball()
     var blocks = loadLevels(3)
 
     var paused = false
+    enableDebugMode(true)
 
 
 
@@ -50,14 +93,6 @@ var __main = function() {
         ball.fire()
     })
 
-    window.addEventListener('keydown', function(event) {
-        var k = event.key
-        if(k == 'p') {
-            paused = !paused
-        } else if('1234567'.includes(k)) {
-            blocks = loadLevels(Number(k))
-        }
-    })
 
 
     game.update = function() {

@@ -1,9 +1,10 @@
-var GuaGame = function() {
+var GuaGame = function(fps) {
     var canvas = document.querySelector("#id-canvas")
     var context = canvas.getContext('2d')
     var g = {
         actions: {},
         keydowns: {},
+        fps: fps,
     }
 
     g.canvas = canvas
@@ -28,7 +29,7 @@ var GuaGame = function() {
 
 
     // timer
-    setInterval(function() {
+    var runloop = function() {
         // events
         var actions = Object.keys(g.actions)
         for (var i = 0; i < actions.length; i++) {
@@ -44,7 +45,11 @@ var GuaGame = function() {
         g.context.clearRect(0, 0, g.canvas.width, g.canvas.height)
         // draw
         g.draw()
-    }, 1000 / 60)
+        setTimeout(runloop, 1000 / g.fps)
+    }
+    setTimeout(function() {
+        runloop()
+    }, 1000 / g.fps)
 
 
     return g
