@@ -11,6 +11,7 @@ var __main = function() {
                     paused = !paused
                 } else if('1234567'.includes(k)) {
                     blocks = loadLevels(Number(k), game)
+                    log(blocks)
                 }
             })
 
@@ -79,6 +80,10 @@ var __main = function() {
         }
 
         game.draw = function() {
+            // 绘制背景
+            game.context.fillStyle = '#554'
+            game.context.fillRect(0, 0, 400, 300)
+
             // draw
             game.drawImage(paddle)
             game.drawImage(ball)
@@ -93,6 +98,29 @@ var __main = function() {
             game.context.fillText('分数： ' + score, 10, 290)
 
         }
+        var enableDrag = false
+        game.canvas.addEventListener('mousedown', function(event) {
+            var x = event.offsetX
+            var y = event.offsetY
+            if(ball.inBall(x, y)) {
+                enableDrag = true
+            }
+        })
+
+        game.canvas.addEventListener('mousemove', function(event) {
+            var x = event.offsetX
+            var y = event.offsetY
+            if(enableDrag) {
+                ball.x = x
+                ball.y = y
+            }
+        })
+
+        game.canvas.addEventListener('mouseup', function(event) {
+            var x = event.offsetX
+            var y = event.offsetY
+            enableDrag = false
+        })
     })
     enableDebugMode(true)
 }

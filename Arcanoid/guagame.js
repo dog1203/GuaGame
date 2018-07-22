@@ -59,8 +59,6 @@ var GuaGame = function(fps, images, runCallback) {
     g.imageByName = function(name) {
         // log(g.images)
         var img = g.images[name]
-        // log('img, ', g.images['paddle'])
-        log('img:', name, img )
         var image = {
             image: img,
             width: img.width,

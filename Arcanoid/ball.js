@@ -31,5 +31,13 @@ var Ball = function(game) {
         o.speedY *= -1
     }
 
+    var inRange = function(x, a, b) {
+        return x >= a && x <= b
+    }
+
+    o.inBall = function(x, y) {
+        return inRange(x, o.x, o.x + o.width) && inRange(y, o.y, o.y + o.height)
+    }
+
     return o
 }
