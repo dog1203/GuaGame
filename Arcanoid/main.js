@@ -1,27 +1,29 @@
+var enableDebugMode = function(enable, game) {
+    if(!enable) {
+        return
+    } else {
+        window.addEventListener('keydown', function(event) {
+            var k = event.key
+            if(k == 'p') {
+                window.paused = !window.paused
+            } else if('1234567'.includes(k)) {
+                blocks = loadLevels(Number(k), game)
+                log(blocks)
+            }
+        })
 
+        document.querySelector("#id-input-speed").addEventListener('input', function(event) {
+            // log(event.target)
+            game.fps = Number(event.target.value)
+            log(game.fps)
+        })
+    }
+}
+
+var blocks = []
 
 var __main = function() {
-    var enableDebugMode = function(enable) {
-        if(!enable) {
-            return
-        } else {
-            window.addEventListener('keydown', function(event) {
-                var k = event.key
-                if(k == 'p') {
-                    paused = !paused
-                } else if('1234567'.includes(k)) {
-                    blocks = loadLevels(Number(k), game)
-                    log(blocks)
-                }
-            })
 
-            document.querySelector("#id-input-speed").addEventListener('input', function(event) {
-                // log(event.target)
-                game.fps = Number(event.target.value)
-                log(game.fps)
-            })
-        }
-    }
 
 
 
@@ -30,14 +32,13 @@ var __main = function() {
         paddle: 'paddle.png',
         block: 'block.png',
     }
-    var paused = false
 
     var score = 0
     var defaultFPS = 30
     var game = GuaGame(defaultFPS, images, function(g) {
         var paddle = Paddle(game)
         var ball = Ball(game)
-        var blocks = loadLevels(3, game)
+        blocks = loadLevels(3, game)
 
 
 
@@ -58,7 +59,7 @@ var __main = function() {
 
 
         game.update = function() {
-            if(paused) {
+            if(window.paused) {
                 return
             }
             ball.move()
@@ -122,7 +123,7 @@ var __main = function() {
             enableDrag = false
         })
     })
-    enableDebugMode(true)
+    enableDebugMode(true, game)
 }
 
 __main()
