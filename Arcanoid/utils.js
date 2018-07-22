@@ -1,6 +1,8 @@
 var log = console.log.bind(console)
 
 
+
+
 var imageFromPath = function(path) {
     var img = new Image()
     img.src = path
@@ -37,13 +39,13 @@ var limitRange = function(x, low, high) {
 }
 
 
-var loadLevels = function(n) {
+var loadLevels = function(n, game) {
     var blocks = []
     var n = n - 1
     var level = levels[n]
     for (var i = 0; i < level.length; i++) {
         var position = level[i]
-        var block = Block(position)
+        var block = Block(position, game)
         blocks.push(block)
     }
     return blocks

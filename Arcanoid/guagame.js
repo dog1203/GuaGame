@@ -1,10 +1,11 @@
-var GuaGame = function(fps) {
+var GuaGame = function(fps, images, runCallback) {
     var canvas = document.querySelector("#id-canvas")
     var context = canvas.getContext('2d')
     var g = {
         actions: {},
         keydowns: {},
         fps: fps,
+        images: {},
     }
 
     g.canvas = canvas
@@ -47,9 +48,48 @@ var GuaGame = function(fps) {
         g.draw()
         setTimeout(runloop, 1000 / g.fps)
     }
-    setTimeout(function() {
-        runloop()
-    }, 1000 / g.fps)
+
+    g.run = function() {
+        runCallback(g)
+        setTimeout(function() {
+            runloop()
+        }, 1000 / g.fps)
+    }
+
+    g.imageByName = function(name) {
+        // log(g.images)
+        var img = g.images[name]
+        // log('img, ', g.images['paddle'])
+        log('img:', name, img )
+        var image = {
+            image: img,
+            width: img.width,
+            height: img.height,
+        }
+        return image
+    }
+
+    // 载入所有资源
+    var loads = []
+    var names = Object.keys(images)
+    for (var i = 0; i < names.length; i++) {
+        let name = names[i]
+        var path = images[name]
+        let img = new Image()
+        img.src = path
+        img.onload = function() {
+            // 载入成功后
+            g.images[name] = img
+            // log('g.images', img)
+            loads.push(1)
+            if(loads.length == names.length) {
+                g.run()
+            }
+        }
+    }
+
+    // 开始运行程序
+    // g.run()
 
 
     return g
