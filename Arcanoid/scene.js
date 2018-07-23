@@ -7,7 +7,8 @@ var Scene = function(game) {
     var ball = Ball(game)
     var blocks = loadLevels(3, game)
 
-    var score = 0
+
+
 
     var enableDrag = false
 
@@ -55,16 +56,25 @@ var Scene = function(game) {
             return
         }
         ball.move()
+
+        // 判断挡板和球相撞
         if(paddle.collide(ball)) {
             ball.speedY *= -1
         }
+
+        // 判断是否结束游戏
+        if(ball.y > paddle.y) {
+            var s = SceneEnd(game)
+            game.replaceScene(s)
+        }
+
         for (var i = 0; i < blocks.length; i++) {
             var block = blocks[i]
             if(block.collide(ball) && block.alive) {
                 block.kill()
 
                 // update the score
-                score += 100
+                game.score += 100
 
                 ball.rebound()
             }
@@ -88,7 +98,7 @@ var Scene = function(game) {
 
         // draw labels - score
         game.context.fillStyle = 'white'
-        game.context.fillText('分数： ' + score, 10, 290)
+        game.context.fillText('分数： ' + game.score, 10, 290)
     }
 
     return s

@@ -6,6 +6,7 @@ var GuaGame = function(fps, images, runCallback) {
         keydowns: {},
         fps: fps,
         images: {},
+        score: 0,
     }
 
     g.canvas = canvas
@@ -49,12 +50,7 @@ var GuaGame = function(fps, images, runCallback) {
         setTimeout(runloop, 1000 / g.fps)
     }
 
-    g.run = function() {
-        runCallback(g)
-        setTimeout(function() {
-            runloop()
-        }, 1000 / g.fps)
-    }
+
 
     g.imageByName = function(name) {
         // log(g.images)
@@ -67,6 +63,13 @@ var GuaGame = function(fps, images, runCallback) {
         return image
     }
 
+    g.update = function() {
+        g.scene.update()
+    }
+
+    g.draw = function() {
+        g.scene.draw()
+    }
     // 载入所有资源
     var loads = []
     var names = Object.keys(images)
@@ -81,14 +84,27 @@ var GuaGame = function(fps, images, runCallback) {
             // log('g.images', img)
             loads.push(1)
             if(loads.length == names.length) {
-                g.run()
+                g.__start()
             }
         }
     }
 
     // 开始运行程序
     // g.run()
+    g.runWithScene = function(scene) {
+        g.scene = scene
+        setTimeout(function() {
+            runloop()
+        }, 1000 / g.fps)
+    }
 
+    g.replaceScene = function(scene) {
+        g.scene = scene
+    }
+
+    g.__start = function() {
+        runCallback(g)
+    }
 
     return g
 }

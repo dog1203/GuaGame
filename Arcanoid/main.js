@@ -22,10 +22,6 @@ var enableDebugMode = function(enable, game) {
 
 
 var __main = function() {
-
-
-
-
     var images = {
         ball: 'ball.png',
         paddle: 'paddle.png',
@@ -35,19 +31,10 @@ var __main = function() {
 
     var defaultFPS = 30
     var game = GuaGame(defaultFPS, images, function(g) {
-        var scene = Scene(game)
-        game.update = function() {
-            scene.update()
-
-        }
-
-        game.draw = function() {
-            scene.draw()
-
-        }
-
-
+        var scene = Scene(g)
+        g.runWithScene(scene)
     })
+
     enableDebugMode(true, game)
 }
 

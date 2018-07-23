@@ -3,7 +3,7 @@ var Paddle = function(game) {
     // log('paddle object is ', o)
 
     o.x = 150
-    o.y = 200
+    o.y = 270
     o.speed = 5
     o.moveLeft = function() {
         o.x = limitRange(o.x - o.speed, 0, 400 - o.image.width)
