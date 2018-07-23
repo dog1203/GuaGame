@@ -14,12 +14,11 @@ var enableDebugMode = function(enable, game) {
 
         document.querySelector("#id-input-speed").addEventListener('input', function(event) {
             // log(event.target)
-            game.fps = Number(event.target.value)
+            game.fps = Number(event.target.value) + 5
             log(game.fps)
         })
     }
 }
-
 
 
 var __main = function() {
