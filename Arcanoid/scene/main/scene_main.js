@@ -1,3 +1,18 @@
+class Scene extends GuaScene {
+    constructor(game) {
+        super(game)
+
+    }
+
+    draw() {
+
+    }
+    update() {
+
+    }
+}
+
+
 var Scene = function(game) {
     var s = {
         game: game,
@@ -59,7 +74,7 @@ var Scene = function(game) {
 
         // 判断是否结束游戏
         if(ball.y > paddle.y) {
-            var s = SceneEnd(game)
+            var s = SceneEnd.new(game)
             game.replaceScene(s)
         }
 

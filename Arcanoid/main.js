@@ -31,7 +31,7 @@ var __main = function() {
 
     var defaultFPS = 30
     var game = GuaGame(defaultFPS, images, function(g) {
-        var scene = SceneTitle(g)
+        var scene = SceneTitle.new(g)
         g.runWithScene(scene)
     })
 
