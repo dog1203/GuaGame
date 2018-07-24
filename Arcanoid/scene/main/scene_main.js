@@ -8,13 +8,7 @@ var Scene = function(game) {
     var blocks = loadLevels(3, game)
 
 
-
-
     var enableDrag = false
-
-
-
-
 
     game.registerAction('a', function() {
         paddle.moveLeft()
@@ -27,6 +21,7 @@ var Scene = function(game) {
     game.registerAction('f', function() {
         ball.fire()
     })
+
 
     game.canvas.addEventListener('mousedown', function(event) {
         var x = event.offsetX

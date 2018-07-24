@@ -1,16 +1,12 @@
-var SceneEnd = function(game) {
+var SceneTitle = function(game) {
     var s = {
         game: game,
     }
 
-
-
-    game.registerAction('r', function() {
-        var s = SceneTitle(game)
+    game.registerAction('k', function() {
+        var s = Scene(game)
         game.replaceScene(s)
     })
-
-
 
     s.update = function() {
 
@@ -24,7 +20,7 @@ var SceneEnd = function(game) {
 
         // draw labels - score
         game.context.fillStyle = 'white'
-        game.context.fillText('游戏结束， 按 R 返回标题界面', 100, 290)
+        game.context.fillText('开始游戏， 按 K 开始游戏', 100, 290)
     }
 
     return s
