@@ -6,7 +6,7 @@ var SceneEnd = function(game) {
 
 
     game.registerAction('r', function() {
-        log('return to title page')
+        // log('return to title page')
         var s = Scene(game)
         game.replaceScene(s)
     })

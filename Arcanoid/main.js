@@ -23,9 +23,9 @@ var enableDebugMode = function(enable, game) {
 
 var __main = function() {
     var images = {
-        ball: 'ball.png',
-        paddle: 'paddle.png',
-        block: 'block.png',
+        ball: 'img/ball.png',
+        paddle: 'img/paddle.png',
+        block: 'img/block.png',
     }
 
 
