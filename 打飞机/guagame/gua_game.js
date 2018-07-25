@@ -27,7 +27,8 @@ class GuaGame {
     }
 
     drawImage(img) {
-        this.context.drawImage(img.image, img.x, img.y)
+        // img 是一个 GuaImage
+        this.context.drawImage(img.texture, img.x, img.y)
     }
 
     registerAction(key, callback) {
@@ -40,6 +41,7 @@ class GuaGame {
 
     draw() {
         this.scene.draw()
+        // log('drawing in gua game')
     }
 
     runloop() {
@@ -88,16 +90,11 @@ class GuaGame {
         }
     }
 
-    imageByName(name) {
+    textureByName(name) {
         var g = this
         // log(g.images)
         var img = g.images[name]
-        var image = {
-            image: img,
-            width: img.width,
-            height: img.height,
-        }
-        return image
+        return img
     }
 
     runWithScene(scene) {
