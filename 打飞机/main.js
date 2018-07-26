@@ -32,12 +32,14 @@ var __main = function() {
         enemy2: 'img/enemy2.png',
         enemy3: 'img/enemy3.png',
         enemy4: 'img/enemy4.png',
+        fire: 'img/fire.png', 
     }
 
 
     var defaultFPS = 30
     var game = GuaGame.instance(defaultFPS, images, function(g) {
-        var scene = Scene.new(g)
+        var scene = SceneTitle.new(g)
+        // var scene = Scene.new(g)
         g.runWithScene(scene)
     })
 

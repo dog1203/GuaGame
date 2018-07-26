@@ -1,5 +1,3 @@
-
-
 class Scene extends GuaScene {
     constructor(game) {
         super(game)

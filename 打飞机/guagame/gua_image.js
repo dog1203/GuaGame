@@ -14,7 +14,7 @@ class GuaImage {
         return i
     }
     draw() {
-
+        this.game.drawImage(this)
     }
     update() {
 
