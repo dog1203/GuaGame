@@ -1,16 +1,17 @@
-var log = console.log.bind(console)
 
 
 
+const log = console.log.bind(console)
 
-var imageFromPath = function(path) {
+
+const imageFromPath = function(path) {
     var img = new Image()
     img.src = path
     return img
 }
 
 
-var intersect = function(o, obj) {
+const intersect = function(o, obj) {
         var half1Width = o.image.width / 2
         var half1Height = o.image.height / 2
         var half2Width = obj.image.width / 2
@@ -29,7 +30,7 @@ var intersect = function(o, obj) {
 }
 
 
-var limitRange = function(x, low, high) {
+const limitRange = function(x, low, high) {
     if(x > high) {
         x = high
     } else if( x < low) {
@@ -39,7 +40,7 @@ var limitRange = function(x, low, high) {
 }
 
 
-var loadLevels = function(n, game) {
+const loadLevels = function(n, game) {
     var blocks = []
     var n = n - 1
     var level = levels[n]

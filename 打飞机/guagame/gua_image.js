@@ -3,8 +3,10 @@ class GuaImage {
         this.texture = game.textureByName(name)
         this.x = 0
         this.y = 0
+        // log(this)
         this.w = this.texture.width
         this.h = this.texture.height
+        this.game = game
 
     }
     static new(game, name) {
@@ -18,11 +20,3 @@ class GuaImage {
 
     }
 }
-
-// 逻辑上来看（用途不同，一个是图片，一个有逻辑），这里不应该继承，应该组合？
-// class Player extends GuaImage {
-//     constructor(game, name) {
-//         super(game, name)
-//
-//     }
-// }
