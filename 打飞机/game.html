@@ -35,6 +35,82 @@
         <hr>
         <input id = "id-input-speed" type="range"  value="30">
 
+        <!-- 动态调整控件 -->
+        <div class="">
 
+        </div>
+        <div class="">
+            <label>
+                <input class='gua-auto-slider' type="range" value="5"
+                    data-value =config.player_speed
+                >
+            玩家速度： <span class='gua-label'></span>
+            </label>
+        </div>
+
+        <div class="">
+            <label>
+                <input class='gua-auto-slider' type="range" value="5"
+                    data-value =config.enemy_speed
+                >
+            敌人速度： <span class='gua-label'></span>
+            </label>
+        </div>
+
+        <div class="">
+            <label>
+                <input class='gua-auto-slider' type="range" value="5"
+                    data-value =config.bullet_speed
+                >
+            子弹速度： <span class='gua-label'></span>
+            </label>
+        </div>
+
+        <div class="">
+            <label>
+                <input class='gua-auto-slider' type="range" value="5"
+                    data-value =config.cloud_speed
+                >
+            云朵速度： <span class='gua-label'></span>
+            </label>
+        </div>
+
+        <div class="">
+            <label>
+                <input class='gua-auto-slider' type="range"
+                    value="5"
+                    max = "10"
+                    min = "1"
+                    data-value =config.fire_cooldown
+                >
+            子弹冷却时间： <span class='gua-label'></span>
+            </label>
+        </div>
+
+        <script src=main.js></script>
+        <script>
+            var es = sel => document.querySelectorAll(sel)
+
+            var bindAll = function(sel, eventName, callback) {
+                var l = es(sel)
+                for (var i = 0; i < l.length; i++) {
+                    var input = l[i]
+                    input.addEventListener(eventName, function(event) {
+                        callback(event)
+                    })
+                }
+            }
+
+            bindAll('.gua-auto-slider', 'input', function(event) {
+                var target = event.target
+                var bindVar = target.dataset.value
+                // log(target)
+                var v = target.value
+                eval(bindVar + '=' + v)
+                //
+                var label = target.closest('label').querySelector('.gua-label')
+                label.innerText = v
+            })
+        </script>
     </body>
 </html>
