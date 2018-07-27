@@ -43,9 +43,14 @@ class GuaAnimation {
     draw() {
         this.game.drawImage(this, this.x, this.y)
     }
-    move(x) {
-        this.x += x
-        this.changeAnimation('run')
+    move(x, keyStatus) {
+        if(keyStatus == 'down') {
+            this.x += x
+            this.changeAnimation('run')
+        } else if(keyStatus == 'up') {
+            this.changeAnimation('idle')
+        }
+
 
     }
     changeAnimation(name) {

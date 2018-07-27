@@ -5,7 +5,7 @@ class GuaGame {
         this.runCallback = runCallback
         this.scene = null
         this.actions = {}
-        this.keydowns = {}
+        this.keys = {}
         this.canvas = document.querySelector("#id-canvas")
         this.context = this.canvas.getContext('2d')
         this.score = 0
@@ -13,10 +13,10 @@ class GuaGame {
         // events
         var self = this
         window.addEventListener('keydown', (event) => {
-            this.keydowns[event.key] = true
+            this.keys[event.key] = 'down'
         })
         window.addEventListener('keyup', (event) => {
-            this.keydowns[event.key] = false
+            this.keys[event.key] = 'up'
         })
         this.init()
     }
@@ -51,9 +51,13 @@ class GuaGame {
         for (var i = 0; i < actions.length; i++) {
 
             var key = actions[i]
-            // log('调用函数',  g.keydowns)
-            if(g.keydowns[key]) {
-                g.actions[key]()
+
+            var status = g.keys[key]
+            if(status == 'down') {
+                g.actions[key](status)
+            } else if(status == 'up') {
+                g.actions[key](status)
+                g.keys[key] = null
             }
         }
 

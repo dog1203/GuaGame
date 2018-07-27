@@ -13,12 +13,12 @@ class SceneTitle extends GuaScene {
     }
     setupInput() {
         var self = this
-        self.game.registerAction('a', function() {
-            self.w.move(-5)
+        self.game.registerAction('a', function(keyStatus) {
+            self.w.move(-5, keyStatus)
         })
 
-        self.game.registerAction('d', function() {
-            self.w.move(5)
+        self.game.registerAction('d', function(keyStatus) {
+            self.w.move(5, keyStatus)
         })
     }
 
