@@ -22,22 +22,28 @@ class Pipes {
         return new this(game)
     }
     resetPipesPosition(p1, p2) {
-        p1.y = randomBetween(-200, 0)
+        p1.y = randomBetween(-240, 50)
         p2.y = p1.y + p1.h + this.pipeSpace
+        log('y axis is', p1.y, p2.y)
     }
     update() {
-        // log('this pipes', this.pipes)
-        for (var i = 0; i < this.pipes.length; i++) {
-            var p = this.pipes[i]
-            p.x -= 5
-            if(p.x < -100) {
-                p.x += this.pipeInterval * 3
+        this.debug && this.debug()
+        for (var i = 0; i < this.pipes.length / 2; i+= 2) {
+            var p1 = this.pipes[i]
+            var p2 = this.pipes[i + 1]
+            p1.x -= 5
+            p2.x -= 5
+            if(p1.x < -100) {
+                p1.x += this.pipeInterval * 3
+                p2.x += this.pipeInterval * 3
+                this.resetPipesPosition(p1, p2)
             }
         }
     }
     debug() {
         this.pipeInterval = config.pipe_interval.value
         this.pipeSpace = config.pipe_space.value
+        this.numOfPipes = Math.floor(400 / config.pipe_interval)
     }
     draw() {
         var context = this.game.context
