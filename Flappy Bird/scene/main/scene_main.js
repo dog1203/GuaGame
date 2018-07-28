@@ -2,7 +2,7 @@ class Pipes {
     constructor(game) {
         this.game = game
         this.pipes = []
-        this.pipeSpace = 150
+        this.pipeSpace = config.pipe_space.value
         this.pipeInterval = 200
         this.numOfPipes = 3
         for (var i = 0; i < this.numOfPipes; i++) {
@@ -26,7 +26,7 @@ class Pipes {
         p2.y = p1.y + p1.h + this.pipeSpace
     }
     update() {
-        log('this pipes', this.pipes)
+        // log('this pipes', this.pipes)
         for (var i = 0; i < this.pipes.length; i++) {
             var p = this.pipes[i]
             p.x -= 5
@@ -34,7 +34,10 @@ class Pipes {
                 p.x += this.pipeInterval * 3
             }
         }
-
+    }
+    debug() {
+        this.pipeInterval = config.pipe_interval.value
+        this.pipeSpace = config.pipe_space.value
     }
     draw() {
         var context = this.game.context
