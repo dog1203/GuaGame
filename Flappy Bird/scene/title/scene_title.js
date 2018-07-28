@@ -1,25 +1,34 @@
 class SceneTitle extends GuaScene {
     constructor(game) {
         super(game)
-        var label = GuaLabel.new(game, 'hello')
-        this.addElements(label)
 
-        var w = GuaAnimation.new(game)
-        w.x = 0
-        w.y = 0
-        this.w = w
-        this.addElements(w)
-        this.setupInput()
+
+
+        var bg = GuaImage.new(game, 'bg')
+        this.addElements(bg)
+
+        this.grounds = []
+        for (var i = 0; i < 30; i++) {
+            var g = GuaImage.new(game, 'ground')
+            g.x = i * 19
+            g.y = 540
+            this.addElements(g)
+            this.grounds.push(g)
+        }
+        this.skipCount = 4
+        this.setupInput(game)
     }
-    setupInput() {
+    setupInput(game) {
         var self = this
-        self.game.registerAction('a', function(keyStatus) {
-            self.w.move(-5, keyStatus)
+        game.registerAction('k', function(keyStatus) {
+            log('k is down')
+            var scene = Scene.new(game)
+            // var scene = Scene.new(g)
+            game.replaceScene(scene)
         })
-
-        self.game.registerAction('d', function(keyStatus) {
-            self.w.move(5, keyStatus)
-        })
+    }
+    update() {
+        super.update()
     }
 
 }
