@@ -5,7 +5,7 @@
         <title>guario</title>
     </head>
     <body>
-        <h3></h3>
+        <h3>0</h3>
         <canvas id="id-canvas" width="640" height="640"></canvas>
         <div class="gua-controls">
             <button data-action='change_offset' data-offset='-1024'>-1024</button>
@@ -52,9 +52,9 @@ const ajax = request => {
 const drawBlock = (context, data, x, y, pixelWidth) => {
     const colors = [
         'white',
-        'gray',
-        'blue',
-        'black',
+        '#FF0000',
+        '#FFB070',
+        '#AA3030',
     ]
     // log(data)
     let w = pixelWidth
