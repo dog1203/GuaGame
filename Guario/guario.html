@@ -5,7 +5,15 @@
         <title>guario</title>
     </head>
     <body>
+        <h3></h3>
         <canvas id="id-canvas" width="640" height="640"></canvas>
+        <div class="gua-controls">
+            <button data-action='change_offset' data-offset='-1024'>-1024</button>
+            <button data-action='change_offset' data-offset='-16'>-16</button>
+            <button data-action='change_offset' data-offset='16'>16</button>
+            <button data-action='change_offset' data-offset='1024'>1024</button>
+
+        </div>
 <script>
 /*
 8 * 8 像素每个方块
@@ -19,8 +27,13 @@
 每页 8 * 8 个图块
 64 * 64个像素，若按照一个像素放大为10倍，则需要640 * 640 的画布大小
 */
-let e = sel => document.querySelector(sel)
-let log = console.log.bind(console)
+const e = sel => document.querySelector(sel)
+const log = console.log.bind(console)
+
+const config = {
+    offset: 32784,
+}
+
 
 const ajax = request => {
     let r = new XMLHttpRequest()
@@ -43,12 +56,15 @@ const drawBlock = (context, data, x, y, pixelWidth) => {
         'blue',
         'black',
     ]
+    // log(data)
     let w = pixelWidth
     let h = pixelWidth
     for (let i = 0; i < 8; i++) {
         let p1 = data[i]
         let p2 = data[i + 8]
-        for (let j = 0; i < 8; j++) {
+        for (let j = 0; j < 8; j++) {
+            // log('drawing blocks', i, j)
+
             // 8 bits per line
             // 在 j 循环中，一次画一个像素点
             let c1 = (p1 >> (7 - j)) & 0b00000001
@@ -58,10 +74,14 @@ const drawBlock = (context, data, x, y, pixelWidth) => {
             context.fillStyle = color
             let px = x + j * w
             let py = y + i * h
+            // log(px, py, w, h)
             context.fillRect(px, py, w, h)
         }
     }
 }
+
+
+
 
 const drawNes = bytes => {
     // 78 69  是第一个方块
@@ -74,28 +94,46 @@ const drawNes = bytes => {
     let pixelWidth = 10
     let numberOfBytesPerBlock = 16
     // let index =
+    // log('draw nes')
     for (let i = 0; i < blockSize; i++) {
         for (let j = 0; j < blockSize; j++) {
             // 算出 bytes
             let x = j * pixelSize * pixelWidth
             let y = i * pixelSize * pixelWidth
-            let index = (i * 8 + j) * numberOfBytesPerBlock
+            let index = config.offset + (i * 8 + j) * numberOfBytesPerBlock
             drawBlock(context, bytes.slice(index), x, y, pixelWidth)
         }
     }
+}
+const actions = {
+    change_offset(offset) {
+        config.offset += offset
+        e('h3').innerHTML = config.offset
+        drawNes(config.bytes)
+    },
+}
+
+const bindEvents = () => {
+    e('.gua-controls').addEventListener('click', event => {
+        let action = event.target.dataset.action
+        let offset = Number(event.target.dataset.offset)
+        actions[action] && actions[action](offset)
+
+    })
 }
 
 const __main = () => {
     let request = {
         url: 'mario.nes',
         callback(r) {
-            let bytes = new Uint8Array(r)
-            log('bytes', bytes)
-            drawNes(bytes)
-
+            config.bytes = new Uint8Array(r)
+            log('bytes', config.bytes)
+            drawNes(config.bytes)
         },
     }
     ajax(request)
+
+    bindEvents()
 }
 
 __main()
