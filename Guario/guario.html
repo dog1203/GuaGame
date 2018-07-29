@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>guario</title>
+    </head>
+    <body>
+        <canvas id="id-canvas" width="640" height="640"></canvas>
+<script>
+/*
+8 * 8 像素每个方块
+2 bit per pixel
+8 * 8 * 2 = 128 bits
+128 / 8 = 16 bytes
+
+16 bytes 一个图块
+
+放大每个像素的话：
+每页 8 * 8 个图块
+64 * 64个像素，若按照一个像素放大为10倍，则需要640 * 640 的画布大小
+*/
+let e = sel => document.querySelector(sel)
+let log = console.log.bind(console)
+
+const ajax = request => {
+    let r = new XMLHttpRequest()
+    r.open('GET', request.url, true)
+    r.responseType = 'arraybuffer'
+    r.onreadystatechange = event => {
+        if(r.readyState == 4) {
+            request.callback(r.response)
+        }
+    }
+    r.send()
+}
+
+
+
+const drawBlock = (context, data, x, y, pixelWidth) => {
+    const colors = [
+        'white',
+        'gray',
+        'blue',
+        'black',
+    ]
+    let w = pixelWidth
+    let h = pixelWidth
+    for (let i = 0; i < 8; i++) {
+        let p1 = data[i]
+        let p2 = data[i + 8]
+        for (let j = 0; i < 8; j++) {
+            // 8 bits per line
+            // 在 j 循环中，一次画一个像素点
+            let c1 = (p1 >> (7 - j)) & 0b00000001
+            let c2 = (p2 >> (7 - j)) & 0b00000001
+            let pixel = (c2 << 1) + c1
+            let color = colors[pixel]
+            context.fillStyle = color
+            let px = x + j * w
+            let py = y + i * h
+            context.fillRect(px, py, w, h)
+        }
+    }
+}
+
+const drawNes = bytes => {
+    // 78 69  是第一个方块
+    // 0100 1110(78) 0100 0101(69)
+    let canvas = e('#id-canvas')
+    let context = canvas.getContext('2d')
+
+    let blockSize = 8
+    let pixelSize = 8
+    let pixelWidth = 10
+    let numberOfBytesPerBlock = 16
+    // let index =
+    for (let i = 0; i < blockSize; i++) {
+        for (let j = 0; j < blockSize; j++) {
+            // 算出 bytes
+            let x = j * pixelSize * pixelWidth
+            let y = i * pixelSize * pixelWidth
+            let index = (i * 8 + j) * numberOfBytesPerBlock
+            drawBlock(context, bytes.slice(index), x, y, pixelWidth)
+        }
+    }
+}
+
+const __main = () => {
+    let request = {
+        url: 'mario.nes',
+        callback(r) {
+            let bytes = new Uint8Array(r)
+            log('bytes', bytes)
+            drawNes(bytes)
+
+        },
+    }
+    ajax(request)
+}
+
+__main()
+</script>
+    </body>
+</html>
